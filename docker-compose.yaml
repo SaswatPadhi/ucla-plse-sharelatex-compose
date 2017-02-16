@@ -1,0 +1,109 @@
+version: '2'
+services:
+    sharelatex:
+        stdin_open: true
+        tty: true
+        restart: always
+        image: sharelatex/sharelatex
+        container_name: sharelatex
+        depends_on:
+            - mongo
+            - redis
+            - sendmail
+        privileged: true
+        ports:
+            - 4096:80
+        links:
+            - mongo
+            - redis
+        volumes:
+            - ~/docker_data/sharelatex:/var/lib/sharelatex
+        environment:
+            SHARELATEX_MONGO_URL: mongodb://mongo/sharelatex
+            SHARELATEX_REDIS_HOST: redis
+            SHARELATEX_APP_NAME: PLSE ShareLaTeX
+            
+            #Set for SSL via nginx-proxy
+            #VIRTUAL_HOST: 103.112.212.22
+
+            SHARELATEX_SITE_URL: http://mingus.cs.ucla.edu:4096
+            SHARELATEX_NAV_TITLE: PLSE ShareLaTeX
+            # SHARELATEX_HEADER_IMAGE_URL: http://somewhere.com/mylogo.png
+            SHARELATEX_ADMIN_EMAIL: padhi@cs.ucla.edu
+
+            SHARELATEX_LEFT_FOOTER: '[{"text": "Powered by <a href=\"https://www.sharelatex.com\">ShareLaTeX</a> 2016"},{"text": "<a href=\"https://github.com/sharelatex/sharelatex\"><i class=\"fa fa-github-square\"></i> Fork on Github!</a>"} ]'
+            SHARELATEX_RIGHT_FOOTER: '[{"text": "<a href=\"mailto:padhi@cs.ucla.edu?Subject=PLSE%20ShareLaTeX%20Issue: \">Report an issue</a>"} ]'
+
+            SHARELATEX_EMAIL_FROM_ADDRESS: "no-reply.plse-sharelatex@cs.ucla.edu"
+
+            # SHARELATEX_EMAIL_AWS_SES_ACCESS_KEY_ID: 
+            # SHARELATEX_EMAIL_AWS_SES_SECRET_KEY: 
+
+            SHARELATEX_EMAIL_SMTP_HOST: sendmail
+            SHARELATEX_EMAIL_SMTP_PORT: 25
+            SHARELATEX_EMAIL_SMTP_SECURE: "false"
+            # SHARELATEX_EMAIL_SMTP_USER: 
+            # SHARELATEX_EMAIL_SMTP_PASS: 
+            # SHARELATEX_EMAIL_SMTP_TLS_REJECT_UNAUTH: true
+            # SHARELATEX_EMAIL_SMTP_IGNORE_TLS: false
+            SHARELATEX_CUSTOM_EMAIL_FOOTER: "<hr><div>This system is run by the PLSE group in CS department.<br>Please report any issues to Saswat Padhi (padhi@cs.ucla.edu).</div>"
+
+            ################
+            ## Server Pro ##
+            ################
+
+            # SANDBOXED_COMPILES:true
+
+            # SHARELATEX_LDAP_HOST: 'ldap://ldap.forumsys.com' 
+            # SHARELATEX_LDAP_DN: 'uid=:userKey,dc=example,dc=com' 
+            # SHARELATEX_LDAP_BASE_SEARCH: 'dc=example,dc=com'
+            # SHARELATEX_LDAP_FILTER: '(uid=:userKey)'
+            # SHARELATEX_LDAP_ADMIN_DN: 'cn=read-only-admin,dc=example,dc=com' 
+            # SHARELATEX_LDAP_ADMIN_PW: password'
+            # SHARELATEX_LDAP_ANONYMOUS: "false"
+            # SHARELATEX_LDAP_EMAIL_ATT: "mail"
+            # SHARELATEX_LDAP_NAME_ATT: "name"
+            # SHARELATEX_LDAP_LAST_NAME_ATT: "secondname"
+            # SHARELATEX_LDAP_PLACEHOLDER: "Username"
+            # SHARELATEX_LDAP_TLS: "true"
+            # SHARELATEX_LDAP_TLS_OPTS_REJECT_UNAUTH:
+            # SHARELATEX_LDAP_TLS_OPTS_CA_PATH: '["/var/one.pem", "/var/two.pem"]'
+
+            # SHARELATEX_TEMPLATES_USER_ID: "578773160210479700917ee5"
+
+            # SHARELATEX_PROXY_LEARN: "true"
+
+    mongo:
+        restart: always
+        image: mongo
+        container_name: mongo
+        expose:
+            - 27017
+        volumes:
+            - ~/docker_data/mongo:/data/db
+
+    redis:
+        restart: always
+        image: redis
+        container_name: redis
+        expose:
+            - 6379
+        volumes:
+            - ~/docker_data/redis:/data
+
+    sendmail:
+        restart: always
+        image: relaxart/docker-sendmail
+        container_name: sendmail
+        expose:
+            - 25
+
+# nginx-proxy:
+#     image: jwilder/nginx-proxy
+#     container_name: nginx-proxy
+#     ports:
+#       #- "80:80"
+#       - "443:443"
+#     volumes:
+#       - /var/run/docker.sock:/tmp/docker.sock:ro
+#       - /home/sharelatex/tmp:/etc/nginx/certs
