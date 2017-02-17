@@ -18,13 +18,11 @@ services:
             - redis
         volumes:
             - ~/docker_data/sharelatex:/var/lib/sharelatex
+            - ./install_latex_packages.sh:/etc/my_init.d/99_install_latex_packages.sh
         environment:
             SHARELATEX_MONGO_URL: mongodb://mongo/sharelatex
             SHARELATEX_REDIS_HOST: redis
             SHARELATEX_APP_NAME: PLSE ShareLaTeX
-            
-            #Set for SSL via nginx-proxy
-            #VIRTUAL_HOST: 103.112.212.22
 
             SHARELATEX_SITE_URL: http://mingus.cs.ucla.edu:4096
             SHARELATEX_NAV_TITLE: PLSE ShareLaTeX
@@ -36,42 +34,10 @@ services:
 
             SHARELATEX_EMAIL_FROM_ADDRESS: "no-reply.plse-sharelatex@cs.ucla.edu"
 
-            # SHARELATEX_EMAIL_AWS_SES_ACCESS_KEY_ID: 
-            # SHARELATEX_EMAIL_AWS_SES_SECRET_KEY: 
-
             SHARELATEX_EMAIL_SMTP_HOST: sendmail
             SHARELATEX_EMAIL_SMTP_PORT: 25
             SHARELATEX_EMAIL_SMTP_SECURE: "false"
-            # SHARELATEX_EMAIL_SMTP_USER: 
-            # SHARELATEX_EMAIL_SMTP_PASS: 
-            # SHARELATEX_EMAIL_SMTP_TLS_REJECT_UNAUTH: true
-            # SHARELATEX_EMAIL_SMTP_IGNORE_TLS: false
             SHARELATEX_CUSTOM_EMAIL_FOOTER: "<hr><div>This system is run by the PLSE group in CS department.<br>Please report any issues to Saswat Padhi (padhi@cs.ucla.edu).</div>"
-
-            ################
-            ## Server Pro ##
-            ################
-
-            # SANDBOXED_COMPILES:true
-
-            # SHARELATEX_LDAP_HOST: 'ldap://ldap.forumsys.com' 
-            # SHARELATEX_LDAP_DN: 'uid=:userKey,dc=example,dc=com' 
-            # SHARELATEX_LDAP_BASE_SEARCH: 'dc=example,dc=com'
-            # SHARELATEX_LDAP_FILTER: '(uid=:userKey)'
-            # SHARELATEX_LDAP_ADMIN_DN: 'cn=read-only-admin,dc=example,dc=com' 
-            # SHARELATEX_LDAP_ADMIN_PW: password'
-            # SHARELATEX_LDAP_ANONYMOUS: "false"
-            # SHARELATEX_LDAP_EMAIL_ATT: "mail"
-            # SHARELATEX_LDAP_NAME_ATT: "name"
-            # SHARELATEX_LDAP_LAST_NAME_ATT: "secondname"
-            # SHARELATEX_LDAP_PLACEHOLDER: "Username"
-            # SHARELATEX_LDAP_TLS: "true"
-            # SHARELATEX_LDAP_TLS_OPTS_REJECT_UNAUTH:
-            # SHARELATEX_LDAP_TLS_OPTS_CA_PATH: '["/var/one.pem", "/var/two.pem"]'
-
-            # SHARELATEX_TEMPLATES_USER_ID: "578773160210479700917ee5"
-
-            # SHARELATEX_PROXY_LEARN: "true"
 
     mongo:
         restart: always
@@ -97,13 +63,3 @@ services:
         container_name: sendmail
         expose:
             - 25
-
-# nginx-proxy:
-#     image: jwilder/nginx-proxy
-#     container_name: nginx-proxy
-#     ports:
-#       #- "80:80"
-#       - "443:443"
-#     volumes:
-#       - /var/run/docker.sock:/tmp/docker.sock:ro
-#       - /home/sharelatex/tmp:/etc/nginx/certs
