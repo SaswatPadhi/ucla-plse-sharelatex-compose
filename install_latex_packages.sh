@@ -9,7 +9,7 @@ tlmgr install amsfonts \
               hyperref \
               koma-script \
               listings lm \
-              mathtools microtype ms \
+              mathtools mdwtools microtype ms \
               oberdiek \
               pgf pgfplots psnfss \
               siunitx subfigure \
