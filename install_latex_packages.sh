@@ -1,24 +1,28 @@
 #!/bin/sh
 
 which tlmgr
-tlmgr install amsfonts amssymb alltt amsmath array \
-              babel bibentry booktabs \
+
+# One line per letter, lexicographically sorted within the line
+# ... makes it much easier to eye-ball the list.
+
+tlmgr install algorithms amsfonts amsmath \
+              babel booktabs \
               caption cleveref \
               DejaVuSansMono \
-              ec epsfig enumitem \
-              fixme fullpage fancyvrb filecontents float \
-              graphics graphicx \
+              ec enumitem etoolbox \
+              fancyvrb filecontents fixme float footmisc \
+              graphics \
               hyperref \
               inconsolata \
               koma-script \
-              listings lm \
-              mathtools mdwtools microtype ms multirow mdwlist \
-              normalem \
-              oberdiek override\
-              pgf pgfplots psnfss palatino proposal pifont \
+              latex listings lkproof lm \
+              mathtools mdwtools microtype ms multirow \
+              natbib \
+              oberdiek \
+              pgf pgfplots psnfss \
+              relsize \
               siunitx subfigure \
-              todonotes tools table times \
-              units upquote url usenames \
-              verbatim \
+              todonotes tools \
+              ulem umprinted units upquote url \
               wrapfig \
               xcolor xspace
