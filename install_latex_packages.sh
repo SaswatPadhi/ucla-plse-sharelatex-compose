@@ -19,10 +19,10 @@ tlmgr install algorithms amsfonts amsmath \
               mathtools mdwtools microtype ms multirow \
               natbib \
               oberdiek \
-              pgf pgfplots psnfss \
+              pgf pgfplots preprint psnfss \
               relsize \
               siunitx subfigure \
               todonotes tools \
-              ulem umprinted units upquote url \
+              ulem units upquote url \
               wrapfig \
-              xcolor xspace
+              xcolor
