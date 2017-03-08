@@ -25,4 +25,5 @@ tlmgr install algorithms amsfonts amsmath \
               todonotes tools \
               ulem units upquote url \
               wrapfig \
-              xcolor
+              xcolor \
+  || true
